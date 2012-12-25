@@ -1,4 +1,4 @@
-Observable maps
+## Install
 
 ```bash
 $ npm install ada-map # component install adaio/map

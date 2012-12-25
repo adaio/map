@@ -1,0 +1,22 @@
+{
+  "name": "ada-map",
+  "version": "0.0.1",
+  "description": "Observable Maps.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+    "ada-pubsub": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:azer/ada-map.git"
+  },
+  "keywords": [
+    "map",
+    "ada"
+  ],
+  "author": "Azer Koculu <azer@kodfabrik.com>",
+  "license": "BSD"
+}

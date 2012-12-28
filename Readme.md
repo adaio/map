@@ -33,18 +33,28 @@ prices.content();
 // => { eggs:3, pen: 5 }
 ```
 
-### #onSet
+## #onError
+A pubsub binding to the onError events of the items.
 
-A [pubsub](http://github.com/adaio/pubsub) object that publishes new keys & values.
+## #onUpdate
+Similar to the onError, emits when any of the items publishes their onUpdate object.
 
 ```js
-var prices = Map();
+  var a = Map(),
+      b = { onUpdate: pubsub() },
+      c = { onUpdate: pubsub() };
 
-prices.onSet(function(product, price){ // or prices.onSet.subscribe(function...
-    console.log('Product: %s Price: %s', product, price);
-});
+  a.set('b', b);
+  a.set('c', c);
 
-prices.set('A Box Eggs', '$4.35');
+  a.onUpdate(function(updated){
+    updated[0].pubsub.should.be.equal(b.onUpdate);
+    updated[1].pubsub.should.be.equal(c.onUpdate);
+    done();
+  });
+
+  b.onUpdate.publish();
+  c.onUpdate.publish();
 ```
 
 ### #onRemove
@@ -61,6 +71,22 @@ prices.onRemove(function(product){
 prices.set('eggs', '$4.35');
 prices.remove('eggs');
 ```
+
+### #onSet
+
+A [pubsub](http://github.com/adaio/pubsub) object that publishes new keys & values.
+
+```js
+var prices = Map();
+
+prices.onSet(function(product, price){ // or prices.onSet.subscribe(function...
+    console.log('Product: %s Price: %s', product, price);
+});
+
+prices.set('A Box Eggs', '$4.35');
+```
+
+
 
 ### #reset
 

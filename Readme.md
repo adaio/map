@@ -33,10 +33,10 @@ prices.content();
 // => { eggs:3, pen: 5 }
 ```
 
-## #onError
+### #onError
 A pubsub binding to the onError events of the items.
 
-## #onUpdate
+### #onUpdate
 Similar to the onError, emits when any of the items publishes their onUpdate object.
 
 ```js

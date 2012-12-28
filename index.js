@@ -1,4 +1,5 @@
-var pubsub = require('ada-pubsub');
+var pubsub = require('ada-pubsub'),
+    on     = require("ada-on");
 
 module.exports = Map;
 

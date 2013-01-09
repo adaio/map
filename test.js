@@ -97,3 +97,21 @@ it('emits onError', function(done){
   b.onError.publish();
   c.onError.publish();
 });
+
+it('emits onReady', function(done){
+  var a = Map(),
+      b = { onReady: pubsub() },
+      c = { onReady: pubsub() };
+
+  a.set('b', b);
+  a.set('c', c);
+
+  a.onReady(function(updated){
+    updated[0].pubsub.should.be.equal(b.onReady);
+    updated[1].pubsub.should.be.equal(c.onReady);
+    done();
+  });
+
+  b.onReady.publish();
+  c.onReady.publish();
+});

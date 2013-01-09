@@ -8,11 +8,14 @@ function Map(){
       content = {};
 
   map.onError  = pubsub();
-  map.onUpdate = pubsub();
+  map.onReady  = pubsub();
   map.onRemove = pubsub();
   map.onSet    = pubsub();
+  map.onUpdate = pubsub();
+
 
   var onErrorController = pubsub.on(map.onError.publish),
+      onReadyController = pubsub.on(map.onReady.publish),
       onUpdateController = pubsub.on(map.onUpdate.publish);
 
   map.content = function getContent(){
@@ -25,6 +28,7 @@ function Map(){
 
   map.remove = function remove(key){
     content[key] && content[key].onUpdate && onUpdateController.subscribeTo(content[key].onUpdate);
+    content[key] && content[key].onReady && onReadyController.subscribeTo(content[key].onReady);
     content[key] && content[key].onError && onErrorController.subscribeTo(content[key].onError);
 
     delete content[key];
@@ -42,6 +46,7 @@ function Map(){
 
     value && value.onUpdate && onUpdateController.subscribeTo(value.onUpdate);
     value && value.onError && onErrorController.subscribeTo(value.onError);
+    value && value.onReady && onReadyController.subscribeTo(value.onReady);
 
     return value;
   };

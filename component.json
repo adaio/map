@@ -2,7 +2,7 @@
   "name": "map",
   "repo": "adaio/map",
   "description": "Observable maps",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "keywords": [],
   "dependencies": {
     "adaio/pubsub": "*"

@@ -1,6 +1,6 @@
 {
   "name": "ada-map",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Observable Maps.",
   "main": "index.js",
   "scripts": {
@@ -9,6 +9,10 @@
   "dependencies": {
     "ada-pubsub": "*",
     "ada-on": "*"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "chai": "*"
   },
   "repository": {
     "type": "git",

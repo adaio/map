@@ -1,5 +1,6 @@
 var pubsub = require('ada-pubsub'),
-    on     = require("ada-on");
+    on     = require("ada-on"),
+    once   = require('ada-once');
 
 module.exports = Map;
 
@@ -14,9 +15,9 @@ function Map(){
   map.onUpdate = pubsub();
 
 
-  var onErrorController = pubsub.on(map.onError.publish),
-      onReadyController = pubsub.on(map.onReady.publish),
-      onUpdateController = pubsub.on(map.onUpdate.publish);
+  var onErrorController = on(map.onError.publish),
+      onReadyController = once(map.onReady.publish),
+      onUpdateController = on(map.onUpdate.publish);
 
   map.content = function getContent(){
     return content;

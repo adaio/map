@@ -106,12 +106,18 @@ it('emits onReady', function(done){
   a.set('b', b);
   a.set('c', c);
 
+  var ready = false;
   a.onReady(function(updated){
+    ready.should.be.true;
     updated[0].pubsub.should.be.equal(b.onReady);
     updated[1].pubsub.should.be.equal(c.onReady);
     done();
   });
 
   b.onReady.publish();
-  c.onReady.publish();
+
+  setTimeout(function(){
+    ready = true;
+    c.onReady.publish();
+  }, 200);
 });

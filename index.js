@@ -39,13 +39,9 @@ function Map(){
   };
 
   map.remove = function remove(key){
-    content[key] && content[key].onUpdate && onUpdateController.subscribeTo(content[key].onUpdate);
-    content[key] && content[key].onReady && onReadyController.subscribeTo(content[key].onReady);
-    content[key] && content[key].onError && onErrorController.subscribeTo(content[key].onError);
-
     var bkey;
     for(bkey in bindings){
-      content[bkey] && bindings[bkey].subscribeTo(value[bkey]);
+      content[key][bkey] && bindings[bkey].unsubscribeTo(content[key][bkey]);
     }
 
     delete content[key];

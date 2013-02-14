@@ -65,10 +65,12 @@ it('removes content and fires an event', function(done){
 it('binds events with "on" and "once"', function(done){
   var a = Map().bind('onError', { once: 'onReady' }),
       b = { onError: pubsub(), onReady: pubsub() },
-      c = { onError: pubsub(), onReady: pubsub() };
+      c = { onError: pubsub(), onReady: pubsub() },
+      d = { onError: pubsub(), onReady: pubsub() };
 
   a.set('b', b);
   a.set('c', c);
+  a.set('d', d);
 
   a.onError(function(updated){
     expect(updated[0].pubsub).to.equal(b.onError);
@@ -96,6 +98,7 @@ it('binds events with "on" and "once"', function(done){
   b.onReady.publish();
 
   setTimeout(function(){
+    a.remove('d');
     ready = true;
     c.onReady.publish();
   }, 200);

@@ -5,19 +5,30 @@ var pubsub = require('ada-pubsub'),
 module.exports = Map;
 
 function Map(){
-  var map     = {},
-      content = {};
+  var map      = {},
+      content  = {},
+      bindings = {};
 
-  map.onError  = pubsub();
-  map.onReady  = pubsub();
   map.onRemove = pubsub();
   map.onSet    = pubsub();
-  map.onUpdate = pubsub();
 
+  map.bind = function(){
+    var publishOnce;
 
-  var onErrorController = on(map.onError.publish),
-      onReadyController = once(map.onReady.publish),
-      onUpdateController = on(map.onUpdate.publish);
+    Array.prototype.forEach.call(arguments, function(name){
+
+      if(name.once){
+        name = name.once;
+        publishOnce = true;
+      }
+
+      map[name] = pubsub();
+      bindings[name] = (publishOnce ? once : on)(map[name].publish);
+
+    });
+
+    return map;
+  };
 
   map.content = function getContent(){
     return content;
@@ -32,6 +43,11 @@ function Map(){
     content[key] && content[key].onReady && onReadyController.subscribeTo(content[key].onReady);
     content[key] && content[key].onError && onErrorController.subscribeTo(content[key].onError);
 
+    var bkey;
+    for(bkey in bindings){
+      content[bkey] && bindings[bkey].subscribeTo(value[bkey]);
+    }
+
     delete content[key];
     map.onRemove.publish(key);
   };
@@ -45,9 +61,10 @@ function Map(){
     content[key] = value;
     map.onSet.publish(key, value);
 
-    value && value.onUpdate && onUpdateController.subscribeTo(value.onUpdate);
-    value && value.onError && onErrorController.subscribeTo(value.onError);
-    value && value.onReady && onReadyController.subscribeTo(value.onReady);
+    var bkey;
+    for(bkey in bindings){
+      value[bkey] && bindings[bkey].subscribeTo(value[bkey]);
+    }
 
     return value;
   };

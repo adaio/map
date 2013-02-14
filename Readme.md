@@ -33,19 +33,23 @@ prices.content();
 // => { eggs:3, pen: 5 }
 ```
 
-### #onError
-A pubsub binding to the onError events of the items.
+### #bind
 
-### #onUpdate
-Similar to the onError, emits when any of the items publishes their onUpdate object.
+Initialize pubsub bindings to specified properties of each item. To understand how it works, see;
+
+* [on](http://github.com/adaio/on)
+* [once](http://github.com/adaio/once)
 
 ```js
+  var prices = Map();
+
   var a = Map(),
       b = { onUpdate: pubsub() },
       c = { onUpdate: pubsub() };
 
   a.set('b', b);
   a.set('c', c);
+  prices.bind('onError', 'onUpdate', { once: 'onReady' }, 'foo', 'bar');
 
   a.onUpdate(function(updated){
     updated[0].pubsub.should.be.equal(b.onUpdate);
@@ -85,8 +89,6 @@ prices.onSet(function(product, price){ // or prices.onSet.subscribe(function...
 
 prices.set('A Box Eggs', '$4.35');
 ```
-
-
 
 ### #reset
 

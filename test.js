@@ -1,4 +1,5 @@
-var should = require('chai').should(),
+var expect = require('chai').expect,
+    should = require('chai').should(),
     pubsub = require('ada-pubsub'),
     Map    = require('./');
 
@@ -61,56 +62,34 @@ it('removes content and fires an event', function(done){
   a.remove('foo');
 });
 
-it('emits onUpdate', function(done){
-  var a = Map(),
-      b = { onUpdate: pubsub() },
-      c = { onUpdate: pubsub() };
-
-  a.set('b', b);
-  a.set('c', c);
-
-  a.onUpdate(function(updated){
-    updated[0].pubsub.should.be.equal(b.onUpdate);
-    updated[1].pubsub.should.be.equal(c.onUpdate);
-    done();
-  });
-
-  b.onUpdate.publish();
-  c.onUpdate.publish();
-
-});
-
-it('emits onError', function(done){
-  var a = Map(),
-      b = { onError: pubsub() },
-      c = { onError: pubsub() };
+it('binds events with "on" and "once"', function(done){
+  var a = Map().bind('onError', { once: 'onReady' }),
+      b = { onError: pubsub(), onReady: pubsub() },
+      c = { onError: pubsub(), onReady: pubsub() };
 
   a.set('b', b);
   a.set('c', c);
 
   a.onError(function(updated){
-    updated[0].pubsub.should.be.equal(b.onError);
-    updated[1].pubsub.should.be.equal(c.onError);
+    expect(updated[0].pubsub).to.equal(b.onError);
+    expect(updated[1].pubsub).to.equal(c.onError);
+
     done();
   });
 
-  b.onError.publish();
-  c.onError.publish();
-});
-
-it('emits onReady', function(done){
-  var a = Map(),
-      b = { onReady: pubsub() },
-      c = { onReady: pubsub() };
-
-  a.set('b', b);
-  a.set('c', c);
-
-  var ready = false;
+  var ready, once = true;
   a.onReady(function(updated){
-    ready.should.be.true;
-    updated[0].pubsub.should.be.equal(b.onReady);
-    updated[1].pubsub.should.be.equal(c.onReady);
+    expect(ready).to.be.true;
+    expect(once).to.be.true;
+
+    once = false;
+
+    b.onError.publish();
+    c.onError.publish();
+
+    expect(updated[0].pubsub).to.equal(b.onReady);
+    expect(updated[1].pubsub).to.equal(c.onReady);
+
     done();
   });
 
@@ -120,4 +99,5 @@ it('emits onReady', function(done){
     ready = true;
     c.onReady.publish();
   }, 200);
+
 });

@@ -1,19 +1,18 @@
 {
   "name": "ada-map",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Observable Maps.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "highkick"
   },
   "dependencies": {
-    "ada-pubsub": "*",
-    "ada-on": "*",
-    "ada-once": "*"
+    "pubsub": "adaio/pubsub",
+    "on": "adaio/on",
+    "once": "adaio/once"
   },
   "devDependencies": {
-    "mocha": "*",
-    "chai": "*"
+    "highkick": "*"
   },
   "repository": {
     "type": "git",

@@ -1,34 +1,29 @@
 var expect = require('chai').expect,
-    should = require('chai').should(),
-    pubsub = require('ada-pubsub'),
+    pubsub = require('pubsub'),
     Map    = require('./');
 
-it('sets and gets values', function(done){
+it('sets and gets values', function(){
   var a = Map();
 
   a.set('foo', 3.14);
   a.set('bar', 156);
 
-  a.get('foo').should.be.equal(3.14);
-  a.get('bar').should.be.equal(156);
+  expect(a.get('foo')).to.equal(3.14);
+  expect(a.get('bar')).to.equal(156);
 
-  should.not.exist(a.get('qux'));
-
-  done();
+  expect(a.get('qux')).to.not.exist;
 });
 
-it('resets content object', function(done){
+it('resets content object', function(){
   var a = Map();
 
   a.set('foo', 3.14);
 
-  a.content().should.have.property('foo', 3.14);
+  expect(a.content()).to.have.property('foo', 3.14);
 
   a.reset({ 'bar': 3.14 });
 
-  a.content().should.have.property('bar', 3.14);
-
-  done();
+  expect(a.content()).to.have.property('bar', 3.14);
 });
 
 it('publishes set events', function(done){
@@ -36,8 +31,8 @@ it('publishes set events', function(done){
   var a = Map();
 
   a.onSet(function(key, value){
-    key.should.be.equal('foo');
-    value.should.be.equal(3.14);
+    expect(key).to.equal('foo');
+    expect(value).to.equal(3.14);
 
     done();
   });
@@ -51,8 +46,8 @@ it('removes content and fires an event', function(done){
 
   a.onRemove(function(key){
 
-    key.should.be.equal('foo');
-    should.not.exist(a.get(key));
+    expect(key).to.equal('foo');
+    expect(a.get(key)).to.not.exist;
 
     done();
 

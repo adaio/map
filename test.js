@@ -81,13 +81,11 @@ it('binds events with "on" and "once"', function(done){
 
     once = false;
 
-    b.onError.publish();
-    c.onError.publish();
-
     expect(updated[0].pubsub).to.equal(b.onReady);
     expect(updated[1].pubsub).to.equal(c.onReady);
 
-    done();
+    b.onError.publish();
+    c.onError.publish();
   });
 
   b.onReady.publish();

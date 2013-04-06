@@ -7,12 +7,12 @@
     "test": "highkick"
   },
   "dependencies": {
-    "pubsub": "adaio/pubsub",
-    "on": "adaio/on",
-    "once": "adaio/once"
+    "ada-pubsub": "*",
+    "ada-on": "*",
+    "ada-once": "*"
   },
   "devDependencies": {
-    "highkick": "*"
+    "fox": "*"
   },
   "repository": {
     "type": "git",

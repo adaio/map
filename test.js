@@ -1,6 +1,5 @@
-var expect = require('chai').expect,
-    pubsub = require('pubsub'),
-    Map    = require('./');
+ var pubsub = require('ada-pubsub'),
+     Map    = require('./');
 
 it('sets and gets values', function(){
   var a = Map();
@@ -75,14 +74,11 @@ it('binds events with "on" and "once"', function(done){
   });
 
   var ready, once = true;
-  a.onReady(function(updated){
+  a.onReady(function(){
     expect(ready).to.be.true;
     expect(once).to.be.true;
 
     once = false;
-
-    expect(updated[0].pubsub).to.equal(b.onReady);
-    expect(updated[1].pubsub).to.equal(c.onReady);
 
     b.onError.publish();
     c.onError.publish();
